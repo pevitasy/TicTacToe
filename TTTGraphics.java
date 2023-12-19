@@ -2,6 +2,15 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+/**
+ * ES234317-Algorithm and Data Structures
+ * Semester Ganjil, 2023/2024
+ * Group Capstone Project
+ * Group #5
+ * 1 - 5026221032 - Fadillah Nur Laili
+ * 2 - 5026221171 - Muhammad Rafi Novyansyah
+ * 3 - 5026221202 - Akbar Daniswara Cahya Buana
+ */
 public class TTTGraphics extends JFrame {
     private static final long serialVersionUID = 1L;
     public static final int ROWS = 3;
@@ -22,6 +31,8 @@ public class TTTGraphics extends JFrame {
     public static final Font FONT_STATUS = new Font("OCR A Extended", Font.PLAIN, 14);
     private String player1Name = "Player 1";
     private String player2Name = "Player 2";
+    private JButton startButton;
+    private JToggleButton aboutToggleButton;
 
     public enum State {
         PLAYING, DRAW, CROSS_WON, NOUGHT_WON
@@ -36,7 +47,7 @@ public class TTTGraphics extends JFrame {
     private Seed[][] board;
     private GamePanel gamePanel;
     private JLabel statusBar;
-    private JButton startButton;
+    // private JButton startButton;
 
     public TTTGraphics() {
         initGame();
@@ -59,6 +70,15 @@ public class TTTGraphics extends JFrame {
                 repaint();
             }
         });
+        aboutToggleButton = new JToggleButton("About Us");
+        aboutToggleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (aboutToggleButton.isSelected()) {
+                    showAboutInfo();
+                }
+            }
+        });
 
         // Inside the TTTGraphics constructor, after setting up gamePanel
         gamePanel.addMouseListener(new MouseAdapter() {
@@ -69,7 +89,6 @@ public class TTTGraphics extends JFrame {
                 // Get the row and column clicked
                 int row = mouseY / CELL_SIZE;
                 int col = mouseX / CELL_SIZE;
-
 
                 if (currentState == State.PLAYING) {
                     if (row >= 0 && row < ROWS && col >= 0 && col < COLS && board[row][col] == Seed.NO_SEED) {
@@ -95,6 +114,7 @@ public class TTTGraphics extends JFrame {
 
         Container cp = getContentPane();
         cp.setLayout(new BorderLayout());
+        cp.add(aboutToggleButton, BorderLayout.LINE_START);
         cp.add(startButton, BorderLayout.PAGE_START);
         cp.add(gamePanel, BorderLayout.CENTER);
         cp.add(statusBar, BorderLayout.PAGE_END);
@@ -167,6 +187,20 @@ public class TTTGraphics extends JFrame {
         }
     }
 
+    private void showAboutInfo() {
+        String imageName = "file:/C:\\Users\\Fadillah Laili\\IdeaProjects\\SudokuFP\\src\\Sudoku/ASDFOTO.jpg"; // Sesuaikan
+        String aboutText = "<html>This version of the Tic Tac Toe game was created by:<br>" +
+                "<ul>" +
+                "<li>5026221032 - Fadillah Nur Laili</li>" +
+                "<li>5026221171 - Muhammad Rafi Novyansyah</li>" +
+                "<li>5026221202 - Akbar Daniswara Cahya Buana</li>" +
+                "</ul>" +
+                "<br><img src='" + imageName + "' width='200' height='150'></html>";
+
+        JLabel aboutLabel = new JLabel(aboutText);
+        JOptionPane.showMessageDialog(null, aboutLabel, "About", JOptionPane.INFORMATION_MESSAGE);
+    }
+
     private void displayWinnerPopup() {
         if (currentState == State.CROSS_WON) {
             JOptionPane.showMessageDialog(this, player1Name + " wins!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
@@ -176,7 +210,6 @@ public class TTTGraphics extends JFrame {
             JOptionPane.showMessageDialog(this, "It's a draw!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    
 
     class GamePanel extends JPanel {
         private static final long serialVersionUID = 1L;
