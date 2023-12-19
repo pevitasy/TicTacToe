@@ -188,17 +188,35 @@ public class TTTGraphics extends JFrame {
     }
 
     private void showAboutInfo() {
-        String imageName = "file:/C:\\Users\\Fadillah Laili\\IdeaProjects\\SudokuFP\\src\\Sudoku/ASDFOTO.jpg"; // Sesuaikan
         String aboutText = "<html>This version of the Tic Tac Toe game was created by:<br>" +
                 "<ul>" +
                 "<li>5026221032 - Fadillah Nur Laili</li>" +
                 "<li>5026221171 - Muhammad Rafi Novyansyah</li>" +
                 "<li>5026221202 - Akbar Daniswara Cahya Buana</li>" +
-                "</ul>" +
-                "<br><img src='" + imageName + "' width='200' height='150'></html>";
+                "</ul></html>";
 
-        JLabel aboutLabel = new JLabel(aboutText);
-        JOptionPane.showMessageDialog(null, aboutLabel, "About", JOptionPane.INFORMATION_MESSAGE);
+        // Create a JPanel to hold the image and text
+        JPanel aboutPanel = new JPanel(new BorderLayout());
+
+        // Create a JLabel for the image
+        JLabel imageLabel = new JLabel();
+        ImageIcon imageIcon = new ImageIcon(TTTGraphics.class.getResource("ASDFOTO.jpg"));
+        Image scaledImage = imageIcon.getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH);
+        imageLabel.setIcon(new ImageIcon(scaledImage));
+
+        // Create a JTextPane for the HTML text
+        JTextPane textPane = new JTextPane();
+        textPane.setContentType("text/html");
+        textPane.setText(aboutText);
+        textPane.setEditable(false);
+        textPane.setBackground(aboutPanel.getBackground());
+
+        // Add the image and text to the aboutPanel
+        aboutPanel.add(imageLabel, BorderLayout.WEST);
+        aboutPanel.add(textPane, BorderLayout.CENTER);
+
+        // Show the aboutPanel in a JOptionPane
+        JOptionPane.showMessageDialog(null, aboutPanel, "About", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void displayWinnerPopup() {
